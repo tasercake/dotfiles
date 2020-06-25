@@ -116,10 +116,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export DOTFILEDIR=~/dotfiles
-if [[ -d ${DOTFILEDIR}/bashrc.d ]]
+# source files in bashrc.d, if any
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+BASHRCDIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+if [[ -d ${BASHRCDIR}/.bashrc.d ]]
 then
-	for f in ${DOTFILEDIR}/bashrc.d/*.sh; do
+	for f in ${BASHRCDIR}/.bashrc.d/*.sh; do
 		. "$f"
 	done
 fi

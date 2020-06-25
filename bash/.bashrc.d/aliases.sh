@@ -11,3 +11,6 @@ alias cls=clear
 alias g=git
 
 alias cenv="conda activate"
+alias jnb="jupyter notebook"
+alias jlab="jupyter lab"
+alias lab=jlab
